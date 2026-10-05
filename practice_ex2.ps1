@@ -1,0 +1,68 @@
+# ==============================================================================
+# Script thực hành Bài 2: Quản lý nhánh và Giải quyết xung đột (Merge Conflict)
+# Tác giả: Boizi06 <hson05542@gmail.com>
+# ==============================================================================
+
+Write-Host "=== BẮT ĐẦU MÔ PHỎNG BÀI 2: TẠO VÀ XỬ LÝ MERGE CONFLICT ===" -ForegroundColor Cyan
+
+# 1. Khởi tạo Git repo và cấu hình
+git init
+git config --local user.name "Boizi06"
+git config --local user.email "hson05542@gmail.com"
+git branch -M main
+
+# 2. Tạo commit gốc
+@"
+# Hệ Thống Quản Lý Dự Án - IT209
+Phiên bản khởi tạo ban đầu.
+Trạng thái: Đang phát triển.
+"@ | Set-Content -Encoding UTF8 -Path "project.md"
+
+git add project.md
+git commit -m "docs: khoi tao du an voi noi dung ban dau tren main"
+
+# 3. Tạo nhánh feature-update và sửa file
+git checkout -b feature-update
+@"
+# Hệ Thống Quản Lý Dự Án - IT209
+Phiên bản khởi tạo ban đầu.
+Trạng thái: Đang phát triển tính năng Notification Service (từ feature-update).
+"@ | Set-Content -Encoding UTF8 -Path "project.md"
+
+git add project.md
+git commit -m "feat(notification): cap nhat trang thai tren feature-update"
+
+# 4. Quay về main và tạo sửa đổi gây xung đột
+git checkout main
+@"
+# Hệ Thống Quản Lý Dự Án - IT209
+Phiên bản khởi tạo ban đầu.
+Trạng thái: Đang phát triển tính năng Authentication Service (từ main).
+"@ | Set-Content -Encoding UTF8 -Path "project.md"
+
+git add project.md
+git commit -m "feat(auth): cap nhat trang thai tren main"
+
+Write-Host "`nĐang tiến hành gộp nhánh feature-update vào main (dự kiến xảy ra xung đột)..." -ForegroundColor Yellow
+git merge feature-update
+
+Write-Host "`n=== TRẠNG THÁI XUNG ĐỘT (MERGE CONFLICT) ===" -ForegroundColor Red
+git status
+
+Write-Host "`nNội dung file project.md khi có xung đột:" -ForegroundColor Yellow
+Get-Content project.md
+
+Write-Host "`nĐang tiến hành giải quyết xung đột thủ công..." -ForegroundColor Green
+@"
+# Hệ Thống Quản Lý Dự Án - IT209
+Phiên bản khởi tạo ban đầu.
+Trạng thái: Đang đồng thời phát triển hai tính năng:
+- Authentication Service (từ main)
+- Notification Service (từ feature-update)
+"@ | Set-Content -Encoding UTF8 -Path "project.md"
+
+git add project.md
+git commit -m "merge: resolve conflict between main and feature-update, integrate both services"
+
+Write-Host "`n=== LỊCH SỬ COMMIT ĐỒ THỊ (git log --graph --oneline) ===" -ForegroundColor Green
+git log --graph --oneline

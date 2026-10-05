@@ -300,6 +300,10 @@ Trạng thái: Đang đồng thời phát triển hai tính năng:
 | 2 | Nội dung file chứa các thẻ `<<<<<<<`, `=======`, `>>>>>>>` | Đã thực hiện |
 | 3 | Màn hình lệnh `git log --graph --oneline` hiển thị cấu trúc nhánh gộp | Đã thực hiện |
 
+### 🖼️ Hình ảnh chụp màn hình kết quả thực hành:
+
+![Ảnh minh chứng kết quả thực hành](./image.png)
+
 ---
 
 ## 📚 PHÂN TÍCH KỸ THUẬT: CƠ CHẾ 3-WAY MERGE TRONG GIT
